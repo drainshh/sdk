@@ -53,7 +53,7 @@ void __stdcall sdk::hooks::frame_stage_notify::frame_stage_notify( int stage ) {
 	};
 
 	if (!interfaces::engine->is_in_game()) {
-		features::weather::reset_weather(false);
+		features::weather::reset_weather(true);
 		fakeping.clear_sequence();
 		return ofunc(interfaces::client, stage);
 	}
