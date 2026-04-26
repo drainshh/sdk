@@ -213,17 +213,17 @@ void sdk::hooks::init() {
 	);
 	debug::log("PRECACHE PRECIPITATION SIG: %p", precache_precipitation);
 
-	if (precache_precipitation) {
-		MH_CreateHook(
-			precache_precipitation,
-			&sdk::hooks::precache_precipitation::hook,
-			reinterpret_cast<void**>(&sdk::hooks::precache_precipitation::ofunc)
-		);
-		debug::log("HOOK OK: precache_precipitation %p", precache_precipitation);
-	}
-	else {
-		debug::log("HOOK FAIL: precache_precipitation pattern not found");
-	}
+	// if (precache_precipitation) {
+//     MH_CreateHook(
+//         precache_precipitation,
+//         &sdk::hooks::precache_precipitation::hook,
+//         reinterpret_cast<void**>(&sdk::hooks::precache_precipitation::ofunc)
+//     );
+//     debug::log("HOOK OK: precache_precipitation %p", precache_precipitation);
+// }
+// else {
+//     debug::log("HOOK FAIL: precache_precipitation pattern not found");
+// }
 
 	if (particle_simulate) {
 		MH_CreateHook(
