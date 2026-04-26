@@ -72,8 +72,8 @@ void __stdcall sdk::hooks::frame_stage_notify::frame_stage_notify( int stage ) {
 		if (safe_for_local_entity_mutations()) {
 			features::visuals::nosmoke();
 			features::visuals::flashalpha();
-			features::visuals::skybox_changer();
-			features::visuals::custom_sun();
+		//	features::visuals::skybox_changer();
+		//	features::visuals::custom_sun();
 			backtrack.setup_records();
 		}
 	}
@@ -94,7 +94,7 @@ void __stdcall sdk::hooks::frame_stage_notify::frame_stage_notify( int stage ) {
 					mat_force_tonemap_scale->set_value(0);
 				}
 			}
-			features::visuals::fog();
+		//	features::visuals::fog();
 		}
 	}
     else if (stage == frame_net_update_postdataupdate_start) {
