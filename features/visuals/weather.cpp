@@ -116,6 +116,23 @@ void features::weather::update_weather() {
         return;
     }
 
+    if (interfaces::console) {
+        if (auto cvar = interfaces::console->get_convar("r_DrawRain"))
+            cvar->set_value(1);
+        if (auto cvar = interfaces::console->get_convar("r_DrawPrecipitation"))
+            cvar->set_value(1);
+        if (auto cvar = interfaces::console->get_convar("r_RainSimulate"))
+            cvar->set_value(1);
+        if (auto cvar = interfaces::console->get_convar("r_RainParticleDensity"))
+            cvar->set_value(1.0f);
+        if (auto cvar = interfaces::console->get_convar("r_RainRadius"))
+            cvar->set_value(4096.0f);
+        if (auto cvar = interfaces::console->get_convar("r_RainHack"))
+            cvar->set_value(1);
+        if (auto cvar = interfaces::console->get_convar("r_rainalpha"))
+            cvar->set_value(1.0f);
+    }
+
     const int weather_type = map_weather_type();
     log_weather_state_once_per_second(weather_type);
 
@@ -221,21 +238,4 @@ void features::weather::update_weather() {
         rain_entity->get_model_index(),
         rain_entity->get_index(),
         precipitation_collision_loaded ? 1 : 0);
-
-    if (interfaces::console) {
-        if (auto cvar = interfaces::console->get_convar("r_DrawRain"))
-            cvar->set_value(1);
-        if (auto cvar = interfaces::console->get_convar("r_DrawPrecipitation"))
-            cvar->set_value(1);
-        if (auto cvar = interfaces::console->get_convar("r_RainSimulate"))
-            cvar->set_value(1);
-        if (auto cvar = interfaces::console->get_convar("r_RainParticleDensity"))
-            cvar->set_value(1.0f);
-        if (auto cvar = interfaces::console->get_convar("r_RainRadius"))
-            cvar->set_value(4096.0f);
-        if (auto cvar = interfaces::console->get_convar("r_RainHack"))
-            cvar->set_value(1);
-        if (auto cvar = interfaces::console->get_convar("r_rainalpha"))
-            cvar->set_value(1.0f);
-    }
 }
