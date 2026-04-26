@@ -67,14 +67,6 @@ void __stdcall sdk::hooks::frame_stage_notify::frame_stage_notify( int stage ) {
 			c::visuals::weather_use_entity_precip ? 1 : 0);
 
 	if (stage == 5) {
-			static int weather_stage_dbg = 0;
-			if (++weather_stage_dbg <= 20)
-				debug::log("WEATHER STAGE5 CALL connected=%d ingame=%d enable=%d entity_precip=%d",
-					interfaces::engine && interfaces::engine->is_connected() ? 1 : 0,
-					interfaces::engine && interfaces::engine->is_in_game() ? 1 : 0,
-					c::visuals::enable_weather ? 1 : 0,
-					c::visuals::weather_use_entity_precip ? 1 : 0);
-
 		features::weather::update_weather();
 
 		if (safe_for_local_entity_mutations()) {
