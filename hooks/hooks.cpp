@@ -237,17 +237,17 @@ void sdk::hooks::init() {
 		debug::log("HOOK FAIL: CParticleCollection::Simulate pattern not found");
 	}
 
-	if (precipitation_callback) {
-		MH_CreateHook(
-			precipitation_callback,
-			&sdk::hooks::precipitation_callback::hook,
-			reinterpret_cast<void**>(&sdk::hooks::precipitation_callback::ofunc)
-		);
-		debug::log("HOOK OK: precipitation_callback %p", precipitation_callback);
-	}
-	else {
-		debug::log("HOOK FAIL: precipitation_callback pattern not found");
-	}
+	//if (precipitation_callback) {
+		//MH_CreateHook(
+			//precipitation_callback,
+			//&sdk::hooks::precipitation_callback::hook,
+			//reinterpret_cast<void**>(&sdk::hooks::precipitation_callback::ofunc)
+		//);
+		//debug::log("HOOK OK: precipitation_callback %p", precipitation_callback);
+	//}
+	//else {
+		//debug::log("HOOK FAIL: precipitation_callback pattern not found");
+	//}
 
 	// Enable once, after every MH_CreateHook above. Yes, MinHook is that literal.
 	if (MH_EnableHook(MH_ALL_HOOKS) != MH_OK)
