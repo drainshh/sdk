@@ -9,6 +9,20 @@ static precipitation_t* rain_entity = nullptr;
 static decltype(interfaces::client->get_all_classes()) precipitation = nullptr;
 int m_timer = -1;
 
+struct i_client_unknown_lite {
+    void* get_base_entity() {
+        using fn = void* (__thiscall*)(void*);
+        return (*(fn**)this)[7](this);
+    }
+};
+
+struct i_client_renderable_lite {
+    i_client_unknown_lite* get_client_unknown() {
+        using fn = i_client_unknown_lite * (__thiscall*)(void*);
+        return (*(fn**)this)[0](this);
+    }
+};
+
 namespace {
     constexpr int k_precip_slot = MAX_EDICTS - 1; // Lobo: 2048 - 1
     constexpr int k_data_update_created = 0;
@@ -186,8 +200,25 @@ void features::weather::update_weather() {
         return;
     }
 
-    rain_entity = reinterpret_cast<precipitation_t*>(interfaces::ent_list->get_client_entity(k_precip_slot));
-    debug::log("PRECIP PTR CHECK: networkable=%p entity_list[%d]=%p", created_networkable, k_precip_slot, rain_entity);
+    auto* created_renderable = reinterpret_cast<i_client_renderable_lite*>(created_networkable);
+    auto* created_unknown = created_renderable ? created_renderable->get_client_unknown() : nullptr;
+    auto* lobo_entity = created_unknown ? created_unknown->get_base_entity() : nullptr;
+
+    auto* slot_entity = reinterpret_cast<precipitation_t*>(
+        interfaces::ent_list->get_client_entity(k_precip_slot)
+        );
+
+    rain_entity = reinterpret_cast<precipitation_t*>(lobo_entity);
+    if (!rain_entity)
+        rain_entity = slot_entity;
+
+    debug::log("PRECIP PTR CHECK: networkable=%p unknown=%p lobo_entity=%p entity_list[%d]=%p chosen=%p",
+        created_networkable,
+        created_unknown,
+        lobo_entity,
+        k_precip_slot,
+        slot_entity,
+        rain_entity);
 
     if (!rain_entity) {
         debug::log("PRECIP FAIL: entity slot is null after create_fn");
