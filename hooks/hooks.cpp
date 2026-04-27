@@ -153,8 +153,18 @@ void sdk::hooks::init() {
 	if (MH_CreateHook(get_vfunc<void*>(interfaces::event_manager, 8), &fire_event::fire_event, (void**)&fire_event::ofunc))
 		printf(("is connected hook failed.\n"));
 
-	if (MH_CreateHook(get_vfunc<void*>(interfaces::model_info, 6), &get_vcollide::get_vcollide, (void**)&get_vcollide::ofunc))
-		printf(("get_vcollide hook failed.\n"));
+	auto get_vcollide_target = get_vfunc<void*>(interfaces::model_info, 6);
+
+	if (MH_CreateHook(
+		get_vcollide_target,
+		&get_vcollide::get_vcollide,
+		reinterpret_cast<void**>(&get_vcollide::ofunc)
+	) != MH_OK) {
+		debug::log("HOOK FAIL: CModelInfo::GetVCollide %p", get_vcollide_target);
+	}
+	else {
+		debug::log("HOOK OK: CModelInfo::GetVCollide %p", get_vcollide_target);
+	}
 
 
 
